@@ -11,18 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/tasks", name="task_")
  */
-class TaskController extends AbstractController
+class ApiTaskController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
      */
     public function index(): Response
     {
-        $tasks = $this->getDoctrine()->getRepository(Task::class)->findBy([], ['id'=> 'DESC']);
-
-        return $this->json([
-            'data' => $tasks
-        ]);
+        return $this->json($this->getDoctrine()->getRepository(Task::class)->findAll(), 200);
     }
 
     /**
@@ -32,12 +28,7 @@ class TaskController extends AbstractController
      */
     public function show(int $id): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $task = $entityManager->getRepository(Task::class)->find($id);
-
-        return $this->json([
-            'data' => $task
-        ]);
+        return $this->json($this->getDoctrine()->getManager()->getRepository(Task::class)->find($id), 200);
     }
 
     /**
@@ -52,7 +43,7 @@ class TaskController extends AbstractController
         if(empty($title)) {
             return $this->json([
                 'data' => 'The title of the task is mandatory.'
-            ]);
+            ], 400);
         }
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -65,7 +56,7 @@ class TaskController extends AbstractController
 
         return $this->json([
             'data' => 'Successfully created task.'
-        ]);
+        ], 201);
     }
 
     /**
@@ -80,6 +71,12 @@ class TaskController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $task = $entityManager->getRepository(Task::class)->find($id);
 
+        if(!$request->request->has('title') || !$request->request->has('status') ) {
+            return $this->json([
+                'data' => 'The title and status of the task are mandatory.'
+            ], 400);
+        }
+
         if($request->request->has('title')) {
             $task->setTitle($data['title']);
         }
@@ -91,7 +88,7 @@ class TaskController extends AbstractController
 
         return $this->json([
             'data' => 'Successfully updated task.'
-        ]);
+        ], 200);
     }
 
     /**
@@ -109,6 +106,6 @@ class TaskController extends AbstractController
 
         return $this->json([
             'data' => 'Successfully removed task.'
-        ]);
+        ], 200);
     }
 }

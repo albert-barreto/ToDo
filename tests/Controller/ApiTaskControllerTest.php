@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TaskControllerTest extends WebTestCase
+class ApiTaskControllerTest extends WebTestCase
 {
     public function testIndex(): void
     {
@@ -30,14 +30,31 @@ class TaskControllerTest extends WebTestCase
 
         $client->request('POST', '/tasks/', ['title' => 'test']);
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+    }
+
+    public function testCreateBadRequestError(): void
+    {
+        $client = static::createClient();
+
+        $client->request('POST', '/tasks/');
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 
     public function testUpdate(): void
     {
         $client = static::createClient();
-        $client->request('PUT', '/tasks/1', ['title' => 'test']);
+        $client->request('PUT', '/tasks/1', ['title' => 'test', 'status' => false]);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
+    public function testUpdateBadRequestError(): void
+    {
+        $client = static::createClient();
+        $client->request('PUT', '/tasks/1');
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 }
