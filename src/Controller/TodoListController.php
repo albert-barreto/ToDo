@@ -17,7 +17,7 @@ class TodoListController extends AbstractController
     public function index(): Response
     {
         $tasks = $this->getDoctrine()->getRepository(Task::class)->findBy([], ['id'=> 'DESC']);
-
+        
         return $this->render('index.html.twig', ['tasks' => $tasks]);
     }
 

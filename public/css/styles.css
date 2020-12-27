@@ -2,6 +2,9 @@
 body {
   margin: 0;
   min-width: 250px;
+  background-color: #1E1E1E;
+  font-size: 1em !important;
+  font-family: Arial !important;
 }
 
 /* Include the padding and border in an element's total width and height */
@@ -17,7 +20,7 @@ ul {
 
 a {
   text-decoration: none;
-  color: #7c580d;
+  color: #0884FF;
 }
 
 /* Style the list items */
@@ -26,9 +29,10 @@ ul li {
   position: relative;
   padding: 12px 8px 12px 40px;
   list-style-type: none;
-  background: #fcf2cb;
+  background: #2C2C2B;
   font-size: 18px;
   transition: 0.2s;
+  margin: 5px 0px 5px 0px;
 
   /* make the list items unselectable */
   -webkit-user-select: none;
@@ -39,26 +43,30 @@ ul li {
 
 /* Set all odd list items to a different color (zebra-stripes) */
 ul li:nth-child(odd) {
-  background: #fcf2cb;
+  background: #2C2C2B;
 }
 
 /* Darker background-color on hover */
 ul li:hover {
-  background: #ff8926;
+  background: #323232;
 }
 
 /* When clicked on, add a background color and strike out text */
 ul li.checked {
-  background: #ff8926;
+  background: #2C2C2B;
   color: #fff;
   text-decoration: line-through;
+}
+
+ul li.checked:hover {
+  background: #323232;
 }
 
 /* Add a "checked" mark when clicked on */
 ul li.checked::before {
   content: "";
   position: absolute;
-  border-color: #ffb00d;
+  border-color: #0884FF;
   border-style: solid;
   border-width: 0 2px 2px 0;
   top: 10px;
@@ -83,8 +91,8 @@ ul li.checked::before {
 
 /* Style the header */
 .header {
-  background-color: #1e4363;
-  padding: 30px 40px;
+  background-color: #0F1C24;
+  padding: 20px 40px;
   color: white;
   text-align: center;
 }
@@ -123,10 +131,24 @@ input {
 }
 
 .addBtn:hover {
-  background-color: #ffb00d;
+  background-color: #323232;
 }
 
 .task-list-item {
     display: block;
 }
 
+/* Style the footer */
+.done {
+  background-color: #1e4363;
+  padding: 5px 10px;
+  color: white;
+  text-align: left;
+}
+
+/* Clear floats after the footer */
+.done:after {
+  content: "";
+  display: table;
+  clear: both;
+}
