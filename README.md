@@ -16,6 +16,7 @@ Ensure you have the following tools in cmdline:
 
 In the application directory of the project, download and install dependencies with composer:
 ```shell
+cd application
 composer -v install
 ```
 
