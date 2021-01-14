@@ -47,7 +47,7 @@ PSR [PHP Standard Recommendation](https://www.php-fig.org/)
 To help finding violation, we use [PHP Coding Standards Fixer](http://cs.sensiolabs.org/)
 
 ### Run tests
-Run PHPUnit through composer alias:
+Run PHPUnit inside application folder:
 
 ```shell
 ./bin/phpunit tests
