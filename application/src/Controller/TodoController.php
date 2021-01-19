@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class TodoListController extends AbstractController
+class TodoController extends AbstractController
 {
     /**
-     * @Route("/todo/list", name="todo_list")
+     * @Route("/todo", name="todo_list")
      */
     public function index(): Response
     {
