@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +25,7 @@ class TodoController extends AbstractController
     /**
      * @Route("/create", name="create_task", methods={"POST"})
      */
-    public function create(Request $request): Response
+    public function create(Request $request, LoggerInterface $logger): Response
     {
         $title = trim($request->request->get('title'));
 
@@ -40,19 +41,23 @@ class TodoController extends AbstractController
         $entityManager->persist($task);
         $entityManager->flush();
 
+        $logger->info('UI: task created');
+
         return $this->redirectToRoute('todo_list');
     }
 
     /**
      * @Route("/switch-status/{id}", name="switch_status")
      */
-    public function switchStatus($id): Response
+    public function switchStatus($id, LoggerInterface $logger): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $task = $entityManager->getRepository(Task::class)->find($id);
 
         $task->setStatus(!$task->getStatus());
         $entityManager->flush();
+
+        $logger->info('UI: task updated');
 
         return $this->redirectToRoute('todo_list');
     }

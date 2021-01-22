@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Psr\Log\LoggerInterface;
 
 /**
  * @Route("/tasks", name="task_")
@@ -34,9 +35,10 @@ class ApiTaskController extends AbstractController
     /**
      * @Route("/", name="create", methods={"POST"})
      * @param Request $request
+     * @param LoggerInterface $logger
      * @return Response
      */
-    public function create(Request $request): Response
+    public function create(Request $request, LoggerInterface $logger): Response
     {
         $title = trim($request->request->get('title'));
 
@@ -54,6 +56,8 @@ class ApiTaskController extends AbstractController
         $entityManager->persist($task);
         $entityManager->flush();
 
+        $logger->info('API: created task');
+
         return $this->json([
             'data' => 'Successfully created task.'
         ], 201);
@@ -63,9 +67,10 @@ class ApiTaskController extends AbstractController
      * @Route("/{id}", name="update", methods={"PUT", "PATCH"})
      * @param int $id
      * @param Request $request
+     * @param LoggerInterface $logger
      * @return Response
      */
-    public function update(int $id, Request $request): Response
+    public function update(int $id, Request $request, LoggerInterface $logger): Response
     {
         $data = $request->request->all();
         $entityManager = $this->getDoctrine()->getManager();
@@ -85,6 +90,8 @@ class ApiTaskController extends AbstractController
             $task->setStatus($data['status']);
         }
         $entityManager->flush();
+
+        $logger->info('API: updated task');
 
         return $this->json([
             'data' => 'Successfully updated task.'
