@@ -30,7 +30,7 @@ docker-compose up -d
 Try a `curl localhost/tasks/`, and see API working !!
 
 ## UI
-In the browser `localhost/todo/list`
+In the browser `localhost/todo`
 
 ### Framework and libraries
 Composer is used for Dependency management
