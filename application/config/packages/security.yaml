@@ -19,6 +19,23 @@ security:
             lazy: true
             provider: app_user_provider
 
+            form_login:
+                check_path: login
+                login_path: login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: todo
+                username_parameter: _email
+
+            logout:
+                path: logout
+                target: login
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                #always_remember_me: true
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

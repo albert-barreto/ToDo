@@ -1,0 +1,39 @@
+{% if error %}
+    <div class="alert alert-danger">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+    </div>
+{% endif %}
+    <form method="post" action="{{ path('login') }}">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="email">Email address</label>
+            <input type="email" name="_email" id="email" class="form-control" />
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="password">Password</label>
+            <input type="password" name="_password" id="password" class="form-control" />
+        </div>
+
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+                <!-- Checkbox -->
+                <div class="form-check">
+                    <label>
+                        <input type="checkbox" name="_remember_me"/>Remember me
+                    </label>
+                </div>
+            </div>
+
+    {#        <div class="col">#}
+    {#            <!-- Simple link -->#}
+    {#            <a href="#!">Forgot password?</a>#}
+    {#        </div>#}
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+    </form>

@@ -3,23 +3,71 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Entity\User;
+use App\Form\RegisterUserType;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
 class TodoController extends AbstractController
 {
     /**
-     * @Route("/todo", name="todo_list")
+     * @Route("/login", name="login")
+     */
+    public function login(AuthenticationUtils $helper)
+    {
+        return $this->render('login.html.twig', [
+            'error' => $helper->getLastAuthenticationError()
+        ]);
+    }
+
+    /**
+     * @Route("/register", name="register")
+     */
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $user = new User();
+        $form = $this->createForm(RegisterUserType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')));
+            $user->setEmail($form->get('email')->getData());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('todo');
+        }
+
+        return $this->render('register.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout(): void
+    {
+        throw new \Exception('This should never be reached!');
+    }
+
+    /**
+     * @Route("/", name="todo")
      */
     public function index(): Response
     {
         $tasks = $this->getDoctrine()->getRepository(Task::class)->findBy([], ['id'=> 'DESC']);
         
-        return $this->render('index.html.twig', ['tasks' => $tasks]);
+        return $this->render('index.html.twig', [
+            'tasks' => $tasks
+        ]);
     }
 
     /**
@@ -43,7 +91,7 @@ class TodoController extends AbstractController
 
         $logger->info('UI: task created');
 
-        return $this->redirectToRoute('todo_list');
+        return $this->redirectToRoute('todo');
     }
 
     /**
@@ -59,7 +107,7 @@ class TodoController extends AbstractController
 
         $logger->info('UI: task updated');
 
-        return $this->redirectToRoute('todo_list');
+        return $this->redirectToRoute('todo');
     }
 
     /**
@@ -73,6 +121,6 @@ class TodoController extends AbstractController
         $entityManager->remove($task);
         $entityManager->flush();
 
-        return $this->redirectToRoute('todo_list');
+        return $this->redirectToRoute('todo');
     }
 }
