@@ -3,63 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Task;
-use App\Entity\User;
-use App\Form\RegisterUserType;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
-class TodoController extends AbstractController
+class TaskController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
-     */
-    public function login(AuthenticationUtils $helper)
-    {
-        return $this->render('login.html.twig', [
-            'error' => $helper->getLastAuthenticationError()
-        ]);
-    }
-
-    /**
-     * @Route("/register", name="register")
-     */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $user = new User();
-        $form = $this->createForm(RegisterUserType::class, $user);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($passwordEncoder->encodePassword($user, $form->get('password')));
-            $user->setEmail($form->get('email')->getData());
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('todo');
-        }
-
-        return $this->render('register.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
-
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logout(): void
-    {
-        throw new \Exception('This should never be reached!');
-    }
-
-    /**
-     * @Route("/", name="todo")
+     * @Route("/todo", name="todo")
      */
     public function index(): Response
     {
@@ -71,7 +25,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/create_task", name="create_task", methods={"POST"})
+     * @Route("/create", name="task_create", methods={"POST"})
      */
     public function create(Request $request, LoggerInterface $logger): Response
     {
@@ -95,7 +49,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/update_task/{id}", name="update_task")
+     * @Route("/update/{id}", name="task_update")
      */
     public function switchStatus($id, LoggerInterface $logger): Response
     {
@@ -111,7 +65,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/delete_task/{id}", name="delete_task")
+     * @Route("/delete/{id}", name="task_delete")
      */
     public function delete($id): Response
     {

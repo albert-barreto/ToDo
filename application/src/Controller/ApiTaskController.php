@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Psr\Log\LoggerInterface;
 
 /**
- * @Route("/tasks", name="task_")
+ * @Route("/api/tasks", name="api_task_")
  */
 class ApiTaskController extends AbstractController
 {
