@@ -4,6 +4,11 @@
       "css": [
         "/assets/css/main.css"
       ]
+    },
+    "css/login": {
+      "css": [
+        "/assets/css/login.css"
+      ]
     }
   }
 }

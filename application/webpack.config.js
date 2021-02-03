@@ -15,6 +15,10 @@ Encore
 
     //.addEntry('app', './assets/app.js')
     .addStyleEntry('css/main', ['./assets/css/main.css'])
+    .addStyleEntry('css/login', ['./assets/css/login.css'])
+
+    // enables Sass/SCSS support
+    .enableSassLoader()
 ;
 
 module.exports = Encore.getWebpackConfig();
