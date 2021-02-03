@@ -71,14 +71,14 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="create_task", methods={"POST"})
+     * @Route("/create_task", name="create_task", methods={"POST"})
      */
     public function create(Request $request, LoggerInterface $logger): Response
     {
         $title = trim($request->request->get('title'));
 
-        if(empty($title)) {
-            return $this->redirectToRoute('todo_list');
+        if (empty($title)) {
+            return $this->redirectToRoute('todo');
         }
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -95,7 +95,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/switch-status/{id}", name="switch_status")
+     * @Route("/update_task/{id}", name="update_task")
      */
     public function switchStatus($id, LoggerInterface $logger): Response
     {
@@ -111,7 +111,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="task_delete")
+     * @Route("/delete_task/{id}", name="delete_task")
      */
     public function delete($id): Response
     {

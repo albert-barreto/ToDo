@@ -35,6 +35,14 @@ class Task
      */
     private $user;
 
+    /**
+     * Task constructor.
+     */
+    public function __construct()
+    {
+        $this->status = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
