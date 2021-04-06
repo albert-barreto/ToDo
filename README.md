@@ -52,3 +52,13 @@ Run PHPUnit inside application folder:
 ```shell
 ./bin/phpunit tests
 ```
+
+### PHP (PHP-FPM)
+#### Composer is included
+```shell
+docker-compose run php-fpm composer
+```
+#### To run fixtures
+```shell
+docker-compose run php-fpm bin/console doctrine:fixtures:load
+```
