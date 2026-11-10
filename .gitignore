@@ -27,6 +27,9 @@
 ###< symfony/webpack-encore-bundle ###
 
 ###> docker/ ###
+/docker/.env
 /docker/database/data/
 /docker/logs/nginx/*
 ###> docker/ ###
+
+.DS_Store

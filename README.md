@@ -20,9 +20,10 @@ cd application
 composer -v install
 ```
 
-Then, start your Docker environment from the docker directory:
+Then, create your local environment file and start your Docker environment from the docker directory:
 ```shell
 cd docker
+cp .env.dist .env   # then set your own passwords and APP_SECRET
 docker-compose up -d
 ```
 
